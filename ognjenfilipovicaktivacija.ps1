@@ -1,95 +1,83 @@
-# --- PROVERA ŠIFRE (Ognjen 030714) ---
-$mojaSifra = "030714"
-Clear-Host
-Write-Host "====================================================" -ForegroundColor Red
-Write-Host "          MAJSTOR TECH - ZAKLJUČAN SISTEM           " -ForegroundColor White -BackgroundColor Red
-Write-Host "          Autor: OGNJEN FILIPOVIĆ                   " -ForegroundColor Yellow
-Write-Host "====================================================" -ForegroundColor Red
-Write-Host ""
-$unos = Read-Host "Unesite lozinku za pristup"
-
-if ($unos -ne $mojaSifra) {
-    Write-Host "POGREŠNA ŠIFRA! Pristup odbijen." -ForegroundColor Red
-    Start-Sleep -Seconds 2
-    exit
+# --- TVOJA ŠIFRA ---
+$mojaSifra = "0307 14"
+$pustaj = $false
+while (-not $pustaj) {
+    Clear-Host
+    Write-Host "======= ZAKLJUČAN SISTEM: OGNJEN FILIPOVIĆ =======" -ForegroundColor Red
+    $u = Read-Host "Unesite lozinku"
+    if ($u -eq $mojaSifra) { $pustaj = $true } else { Write-Host "Pogrešno!"; Start-Sleep 1 }
 }
 
-# --- FUNKCIJA ZA ZAGLAVLJE ---
 function Show-Header {
     Clear-Host
     Write-Host "====================================================" -ForegroundColor Cyan
-    Write-Host "          MAJSTOR TECH - AKTIVACIONI SISTEM         " -ForegroundColor White -BackgroundColor Blue
-    Write-Host "          Skriptni autor: OGNJEN FILIPOVIĆ          " -ForegroundColor Yellow
+    Write-Host "          OGNJEN TECH - UNIVERZALNI ALAT            " -ForegroundColor White -BackgroundColor Blue
+    Write-Host "          SVE VERZIJE DIREKTNO SA SERVERA           " -ForegroundColor Yellow
     Write-Host "====================================================" -ForegroundColor Cyan
 }
 
-# --- GLAVNA PETLJA ---
 do {
     Show-Header
-    Write-Host " 1. Windows Aktivacija (Izbor verzije)"
-    Write-Host " 2. Office Aktivacija (Izbor verzije)"
-    Write-Host " 3. Massgrave Menu (Sve metode)"
-    Write-Host " 4. Online KMS (Brza aktivacija)"
-    Write-Host " 5. Proveri Status Aktivacije"
-    Write-Host " 6. Troubleshoot (U pripremi)"
-    Write-Host " 7. Extras (U pripremi)"
-    Write-Host " 8. EXIT / Izlaz"
+    Write-Host " 1. Windows Aktivacija (Tvoj HWID Metod)"
+    Write-Host " 2. Office Aktivacija (Sve verzije)"
+    Write-Host " 3. Windows Update & Popravka"
+    Write-Host " 4. Microsoft Store Popravka"
+    Write-Host " 5. Proveri Status Licence"
+    Write-Host " 6. INSTALACIJA PROGRAMA (Chrome, VLC, WinRAR...)"
+    Write-Host " 7. EXTRAS / TVOJI ALATI"
+    Write-Host " 8. EXIT"
     Write-Host "----------------------------------------------------"
    
-    $glavniIzbor = Read-Host "Izaberi opciju"
+    $izbor = Read-Host "Izaberi opciju"
 
-    switch ($glavniIzbor) {
+    switch ($izbor) {
         "1" {
-            do {
-                Show-Header
-                Write-Host ">>> WINDOWS AKTIVACIJA" -ForegroundColor Magenta
-                Write-Host " 1) Windows 10/11 Pro"
-                Write-Host " 2) Windows 10/11 Home"
-                Write-Host " 3) Windows 10/11 Enterprise"
-                Write-Host " 0) VRATI SE U GLAVNI MENI" -ForegroundColor Red
-                $winIzbor = Read-Host "Izbor"
-                if ($winIzbor -eq "0") { break }
-                if ($winIzbor -match "[1-3]") {
-                    Write-Host "Pokrećem aktivaciju preko Massgrave sistema..." -ForegroundColor Green
-                    irm https://get.activated.win | iex
-                    Pause
-                }
-            } while ($true)
+            # Ovde pozivamo TVOJU skriptu sa tvog GitHuba
+            Write-Host "Pokrećem tvoj HWID sistem..." -ForegroundColor Green
+            # irm https://raw.githubusercontent.com/TVOJ_USER/REPO/main/tvoj.ps1 | iex
+            Pause
         }
-       
-        "2" {
+
+        "6" {
             do {
                 Show-Header
-                Write-Host ">>> OFFICE AKTIVACIJA" -ForegroundColor Magenta
-                Write-Host " 1) Office (Sve verzije)"
-                Write-Host " 0) VRATI SE U GLAVNI MENI" -ForegroundColor Red
-                $offIzbor = Read-Host "Izbor"
-                if ($offIzbor -eq "0") { break }
-                if ($offIzbor -eq "1") {
-                    Write-Host "Pokrećem Office aktivaciju..." -ForegroundColor Green
-                    irm https://get.activated.win | iex
-                    Pause
+                Write-Host ">>> INSTALACIJA SA ZVANIČNIH SERVERA" -ForegroundColor Magenta
+                Write-Host " 1) Google Chrome"
+                Write-Host " 2) VLC Player"
+                Write-Host " 3) WinRAR"
+                Write-Host " 4) 7-Zip"
+                Write-Host " 5) Steam"
+                Write-Host " 0) NAZAD"
+                $soft = Read-Host "Šta instaliramo"
+                if ($soft -eq "0") { break }
+               
+                $ID = switch($soft) {
+                    "1" { "Google.Chrome" }
+                    "2" { "VideoLAN.VLC" }
+                    "3" { "RARLab.WinRAR" }
+                    "4" { "7zip.7zip" }
+                    "5" { "Valve.Steam" }
                 }
+               
+                Write-Host "Instaliram $ID direktno od autora..." -ForegroundColor Cyan
+                winget install --id $ID --silent --accept-package-agreements --accept-source-agreements
+                Write-Host "Završeno!" -ForegroundColor Green; Pause
             } while ($true)
         }
 
         "3" {
             Show-Header
-            Write-Host "Pokrećem Massgrave AIO Menu..." -ForegroundColor Cyan
-            irm https://get.activated.win | iex
-        }
-
-        "4" {
-            Show-Header
-            Write-Host "Pokrećem Online KMS..." -ForegroundColor Cyan
-            irm https://get.activated.win | iex
-        }
-
-        "5" {
-            Show-Header
-            Write-Host "PROVERA STATUSA..." -ForegroundColor Yellow
-            cscript //nologo $env:systemroot\system32\slmgr.vbs /xpr
+            Write-Host "Pokrećem sistemsko čišćenje i Update..." -ForegroundColor Yellow
+            dism /online /cleanup-image /restorehealth
+            sfc /scannow
             Pause
+        }
+
+        "7" {
+             Show-Header
+             Write-Host ">>> OGNJENOV EXTRAS MENI" -ForegroundColor Magenta
+             Write-Host "Ovde ubacuješ svoje linkove ili skripte."
+             Pause
         }
 
         "8" { exit }
