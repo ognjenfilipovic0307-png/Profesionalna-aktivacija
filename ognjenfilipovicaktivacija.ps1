@@ -1,4 +1,4 @@
-# --- PROVERA ŠIFRE (Ognjen 0307 14) ---
+# --- PROVERA ŠIFRE (Ognjen 030714) ---
 $mojaSifra = "030714"
 Clear-Host
 Write-Host "====================================================" -ForegroundColor Red
