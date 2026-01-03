@@ -7,17 +7,17 @@
     <style>
         body { font-family: 'Segoe UI', sans-serif; background: #0b0f19; color: #e2e8f0; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
         #login-screen { text-align: center; background: #161b22; padding: 40px; border-radius: 15px; border: 1px solid #30363d; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        #main-content { display: none; width: 95%; max-width: 900px; padding: 20px; }
+        #main-content { display: none; width: 95%; max-width: 1000px; padding: 20px; }
         input[type="password"] { padding: 12px; border-radius: 5px; border: 1px solid #38bdf8; background: #0f172a; color: white; width: 200px; text-align: center; font-size: 1.1em; }
         button { padding: 12px 25px; border-radius: 5px; border: none; background: #38bdf8; color: #0f172a; font-weight: bold; cursor: pointer; margin-top: 10px; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
         .card { background: #161b22; padding: 20px; border-radius: 10px; border: 1px solid #30363d; margin-bottom: 20px; }
-        h1, h2 { color: #38bdf8; text-transform: uppercase; }
-        .btn-action { display: block; background: #238636; color: white; padding: 15px; text-decoration: none; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px; }
-        .btn-notes { background: #8b5cf6; }
-        .code-block { background: #010409; padding: 10px; border-radius: 5px; color: #7ee787; font-family: monospace; font-size: 0.9em; overflow-x: auto; border-left: 3px solid #38bdf8; }
-        .tip { color: #facc15; font-weight: bold; }
-        @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+        h1, h2, h3 { color: #38bdf8; text-transform: uppercase; margin-top: 0; }
+        .btn-action { display: block; background: #238636; color: white; padding: 15px; text-decoration: none; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px; border: 1px solid #2ea043; }
+        .code-block { background: #010409; padding: 10px; border-radius: 5px; color: #7ee787; font-family: monospace; font-size: 0.85em; overflow-x: auto; border-left: 3px solid #38bdf8; margin: 10px 0; }
+        .tip { color: #facc15; font-weight: bold; font-size: 0.9em; }
+        hr { border: 0; border-top: 1px solid #30363d; margin: 20px 0; }
+        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -33,54 +33,68 @@
         <div style="text-align: center; margin-bottom: 30px;">
             <h1>MAJSTOR OGNJEN - SERVISNI PANEL</h1>
             <div class="grid">
-                <a href="start.ps1" class="btn-action">1. PREUZMI MOJU SKRIPTU (.PS1)</a>
-                <a href="#notes" class="btn-action btn-notes">2. POGLEDAJ BELEŠKE</a>
+                <a href="https://raw.githubusercontent.com/ognjenfilipovic0307-png/Profesionalna-aktivacija/main/start.ps1" class="btn-action">📥 PREUZMI START.PS1</a>
+                <div class="card" style="margin:0; padding:10px;">
+                    <small>Direktna komanda za PowerShell:</small>
+                    <div class="code-block" style="font-size:0.7em;">irm https://raw.githubusercontent.com/ognjenfilipovic0307-png/Profesionalna-aktivacija/main/start.ps1 | iex</div>
+                </div>
             </div>
         </div>
 
-        <div id="notes">
-            <div class="grid">
-                <div class="card">
-                    <h2>🔍 Provera Licence</h2>
-                    <p>Fabrički ključ iz BIOS-a:</p>
-                    <div class="code-block">(Get-WmiObject -query 'select * from SoftwareLicensingService').OA3xOriginalProductKey</div>
-                    <p>Status aktivacije:</p>
-                    <div class="code-block">slmgr.vbs /xpr</div>
-                    <p class="tip">Savet: Ako piše "Volume", briši i radi MAS (HWID).</p>
-                </div>
-
-                <div class="card">
-                    <h2>🚀 Optimizacija & Čišćenje</h2>
-                    <p>Čišćenje Update keša:</p>
-                    <div class="code-block">net stop wuauserv; net stop bits; Remove-Item -Path "C:\Windows\SoftwareDistribution\Download\*" -Recurse -Force; net start wuauserv</div>
-                    <p>Čišćenje Windows.old:</p>
-                    <div class="code-block">RD /S /Q "C:\Windows.old"</div>
-                </div>
-
-                <div class="card">
-                    <h2>💻 Hardver & Dijagnostika</h2>
-                    <p>Izveštaj o bateriji:</p>
-                    <div class="code-block">powercfg /batteryreport</div>
-                    <p>Pregrevanje:</p>
-                    <p>Izduvati prašinu kompresovanim vazduhom i četkicom kod ventilatora.</p>
-                </div>
-
-                <div class="card">
-                    <h2>📺 YouTube bez reklama</h2>
-                    <p>• <b>uBlock Origin:</b> Glavni alat (Raymond Hill). <br>
-                       • <b>SponsorBlock:</b> Preskače sponzore. <br>
-                       • <b>Brave:</b> Sve ugrađeno. <br>
-                       • <b>Revanced:</b> Za Android telefone.</p>
-                </div>
+        <div class="grid">
+            <div class="card">
+                <h2>🔍 Provera Licence</h2>
+                <p>Status aktivacije (Trajno ili ne):</p>
+                <div class="code-block">slmgr.vbs /xpr</div>
+                <p>Tip licence (Retail/OEM/Volume):</p>
+                <div class="code-block">slmgr.vbs /dli</div>
+                <p>Fabrički ključ iz BIOS-a:</p>
+                <div class="code-block">(Get-WmiObject -query 'select * from SoftwareLicensingService').OA3xOriginalProductKey</div>
+                <p class="tip">MAJSTORSKI SAVET: Ako piše "Volume will expire", reci im da je piratska i da ti radiš bezbednu trajnu aktivaciju.</p>
             </div>
 
             <div class="card">
-                <h2>⚡ Brze PowerShell Komande</h2>
-                <p>Sve lozinke Wi-Fi mreža:</p>
-                <div class="code-block">(netsh wlan show profiles) | Select-String "\:(.+)$" | %{$name=$_.Matches.Groups[1].Value.Trim(); $_} | %{(netsh wlan show profile name="$name" key=clear)} | Select-String "Key Content\W+\:(.+)$"</div>
-                <p>Top 10 CPU procesa:</p>
-                <div class="code-block">Get-Process | Sort-Object CPU -Descending | Select-Object -First 10</div>
+                <h2>🚀 Optimizacija Sistema</h2>
+                <p>Čišćenje Update keša (kad baguje):</p>
+                <div class="code-block">net stop wuauserv; net stop bits; Remove-Item -Path "C:\Windows\SoftwareDistribution\Download\*" -Recurse -Force; net start wuauserv</div>
+                <p>Čišćenje Windows.old:</p>
+                <div class="code-block">RD /S /Q "C:\Windows.old"</div>
+                <p>Optimizacija SSD/HDD:</p>
+                <div class="code-block">defrag C: /O</div>
+                <p>Čišćenje Temp fajlova:</p>
+                <div class="code-block">Remove-Item -Path "$env:LOCALAPPDATA\Temp\*" -Recurse -Force</div>
             </div>
+
+            <div class="card">
+                <h2>⚙️ Hardver & Mreža</h2>
+                <p>Sve WiFi lozinke na kompu:</p>
+                <div class="code-block">(netsh wlan show profiles) | Select-String "\:(.+)$" | %{$name=$_.Matches.Groups[1].Value.Trim(); $_} | %{(netsh wlan show profile name="$name" key=clear)} | Select-String "Key Content\W+\:(.+)$"</div>
+                <p>Zdravlje baterije (HTML izveštaj):</p>
+                <div class="code-block">powercfg /batteryreport</div>
+                <p>Ko je sve na mom WiFi-u:</p>
+                <div class="code-block">Get-NetNeighbor</div>
+            </div>
+
+            <div class="card">
+                <h2>📺 YouTube bez reklama</h2>
+                <p>1. <b>uBlock Origin</b> (Raymond Hill) - Najbolji blocker.</p>
+                <p>2. <b>SponsorBlock</b> - Preskače smaranje u videu.</p>
+                <p>3. <b>Brave Browser</b> - Ima sve ugrađeno.</p>
+                <p>4. <b>Revanced</b> - Rešenje za Android telefon.</p>
+                <p class="tip">Trik: Ako blokiraju uBlock -> Settings -> Filter lists -> Purge all caches -> Update now.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🛠️ Specijalni Majstorski Trikovi</h2>
+            <h3>🔑 Skidanje šifre / Instalacija</h3>
+            <p>• <b>Pregrevanje:</b> Četkica i vazduh obavezno. Laptopovi koče jer su zapušeni.</p>
+            <p>• <b>Popravka sistema:</b> <span class="code-block">sfc /scannow</span> pa onda <span class="code-block">DISM /Online /Cleanup-Image /RestoreHealth</span></p>
+            <p>• <b>Brzo ažuriranje svega:</b> <span class="code-block">winget upgrade --all</span></p>
+        </div>
+
+        <div style="text-align:center; padding: 20px; opacity: 0.5;">
+            <p>Tvoj sajt: https://ognjenfilipovic0307-png.github.io/Profesionalna-aktivacija/</p>
         </div>
     </div>
 
@@ -95,11 +109,8 @@
                 alert("Pogrešna šifra!");
             }
         }
-        // Dozvoli Enter taster za login
         document.getElementById("passInput").addEventListener("keyup", function(event) {
-            if (event.keyCode === 13) {
-                checkPass();
-            }
+            if (event.keyCode === 13) { checkPass(); }
         });
     </script>
 </body>
