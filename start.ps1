@@ -1,99 +1,149 @@
-# --- 1. PROVERA ŠIFRE ---
+# --- 1. PROVERA ŠIFRE (Neprobojno) ---
 $mojaSifra = "0307 14"
 $pustajUnutra = $false
+
 while (-not $pustajUnutra) {
     Clear-Host
     Write-Host "====================================================" -ForegroundColor Red
     Write-Host "      MAJSTOR TECH - SISTEM JE ZAKLJUČAN            " -ForegroundColor White -BackgroundColor Red
+    Write-Host "      AUTOR: OGNJEN FILIPOVIĆ                       " -ForegroundColor Yellow
     Write-Host "====================================================" -ForegroundColor Red
-    $unos = Read-Host " Unesite lozinku"
-    if ($unos -eq $mojaSifra) { $pustajUnutra = $true }
-    else { Write-Host " Pogrešna šifra! Pokušaj ponovo..." -ForegroundColor Red; Start-Sleep 1 }
+    Write-Host ""
+    $unos = Read-Host " Unesite lozinku za pristup"
+
+    if ($unos -eq $mojaSifra) {
+        $pustajUnutra = $true
+        Write-Host " Pristup odobren! Dobrodošao, Ognjene." -ForegroundColor Green
+        Start-Sleep -Seconds 1
+    }
+    else {
+        Write-Host " POGREŠNA ŠIFRA! Pokušaj ponovo..." -ForegroundColor Red
+        Start-Sleep -Seconds 2
+    }
 }
 
+# --- 2. FUNKCIJA ZA ZAGLAVLJE ---
 function Show-Header {
     Clear-Host
     Write-Host "====================================================" -ForegroundColor Cyan
-    Write-Host "        MAJSTOR OGNJEN - PROFESIONALNI ALAT         " -ForegroundColor White -BackgroundColor Blue
+    Write-Host "        MAJSTOR OGNJEN - UNIVERZALNI ALAT           " -ForegroundColor White -BackgroundColor Blue
+    Write-Host "        SVE VERZIJE DIREKTNO SA SERVERA             " -ForegroundColor Yellow
     Write-Host "====================================================" -ForegroundColor Cyan
 }
 
+# --- 3. GLAVNA PETLJA ---
 do {
     Show-Header
-    Write-Host " 1. WINDOWS AKTIVACIJA"
-    Write-Host " 2. OFFICE AKTIVACIJA"
-    Write-Host " 3. POPRAVKA SISTEMA & UPDATE"
-    Write-Host " 4. INSTALACIJA PROGRAMA (Sve sa servera)"
+    Write-Host " 1. WINDOWS AKTIVACIJA (Sve verzije)"
+    Write-Host " 2. OFFICE AKTIVACIJA (2016 - 365)"
+    Write-Host " 3. POPRAVKA SISTEMA (SFC, DISM, Update)"
+    Write-Host " 4. INSTALACIJA PROGRAMA (Velika lista)"
     Write-Host " 5. PROVERI STATUS LICENCI"
-    Write-Host " 6. EXTRAS (Servisni alati)"
+    Write-Host " 6. SERVISNI TOOLS (Temp Clean & Kanta)"
+    Write-Host " 7. OGNJEN EXTRAS (GitHub & Web Linkovi)"
     Write-Host " 8. IZLAZ"
     Write-Host "----------------------------------------------------"
+   
     $izbor = Read-Host "Izaberi opciju"
 
     switch ($izbor) {
         "1" {
-            do {
-                Show-Header
-                Write-Host ">>> WINDOWS AKTIVACIJA" -ForegroundColor Magenta
-                Write-Host " 1) Windows 10/11 Pro"
-                Write-Host " 2) Windows 10/11 Home"
-                Write-Host " 3) Windows 10/11 Enterprise"
-                Write-Host " 4) AUTOMATSKA AKTIVACIJA (Sve verzije)"
-                Write-Host " 0) NAZAD"
-                $win = Read-Host "Izbor"
-                if ($win -eq "0") { break }
-                Write-Host "Pokrećem aktivaciju..." -ForegroundColor Green
-                irm https://get.activated.win | iex
-                Pause
-            } while ($true)
+            Show-Header
+            Write-Host "Pokrećem Windows Aktivaciju..." -ForegroundColor Green
+            irm https://get.activated.win | iex
+            Pause
         }
 
         "2" {
-            do {
-                Show-Header
-                Write-Host ">>> OFFICE AKTIVACIJA" -ForegroundColor Magenta
-                Write-Host " 1) Office 2016 (Novo!)"
-                Write-Host " 2) Office 2019"
-                Write-Host " 3) Office 2021"
-                Write-Host " 4) Office 365"
-                Write-Host " 0) NAZAD"
-                $off = Read-Host "Izbor"
-                if ($off -eq "0") { break }
-                Write-Host "Aktiviram Office..." -ForegroundColor Green
-                irm https://get.activated.win | iex
-                Pause
-            } while ($true)
+            Show-Header
+            Write-Host "Pokrećem Office Aktivaciju..." -ForegroundColor Green
+            irm https://get.activated.win | iex
+            Pause
+        }
+
+        "3" {
+            Show-Header
+            Write-Host "Pokrećem sistemsku popravku..." -ForegroundColor Yellow
+            sfc /scannow
+            dism /online /cleanup-image /restorehealth
+            Write-Host "Sistem je osvežen!" -ForegroundColor Green
+            Pause
         }
 
         "4" {
             do {
                 Show-Header
-                Write-Host ">>> INSTALACIJA PROGRAMA" -ForegroundColor Magenta
-                Write-Host " 1) Chrome | 2) WinRAR | 3) VLC | 4) 7-Zip"
-                Write-Host " 9) INSTALIRAJ SVE OGNJEN PACK (Full Setup)"
-                Write-Host " 0) NAZAD"
-                $soft = Read-Host "Izbor"
+                Write-Host ">>> IZABERI PROGRAM ZA INSTALACIJU:" -ForegroundColor Magenta
+                Write-Host " 1) Chrome        2) Firefox      3) WinRAR"
+                Write-Host " 4) 7-Zip         5) VLC Player   6) AnyDesk"
+                Write-Host " 7) TeamViewer    8) Spotify      9) Adobe Reader"
+                Write-Host " 10) Discord      11) Steam       12) Zoom"
+                Write-Host " 99) INSTALIRAJ SVE OSNOVNO (Chrome, WinRAR, VLC, PDF)"
+                Write-Host " 0) VRATI SE NAZAD" -ForegroundColor Red
+               
+                $soft = Read-Host "Unesi broj"
                 if ($soft -eq "0") { break }
-                $lista = switch($soft) { "1" {@("Google.Chrome")}; "2" {@("RARLab.WinRAR")}; "3" {@("VideoLAN.VLC")}; "4" {@("7zip.7zip")}; "9" {@("Google.Chrome", "RARLab.WinRAR", "VideoLAN.VLC", "7zip.7zip")} }
-                foreach ($item in $lista) { Write-Host "Instaliram: $item ..." -ForegroundColor Cyan; winget install --id $item --silent --accept-package-agreements --accept-source-agreements }
-                Write-Host "Završeno!" -ForegroundColor Green; Pause
+               
+                $id = switch($soft) {
+                    "1" { @("Google.Chrome") }
+                    "2" { @("Mozilla.Firefox") }
+                    "3" { @("RARLab.WinRAR") }
+                    "4" { @("7zip.7zip") }
+                    "5" { @("VideoLAN.VLC") }
+                    "6" { @("AnyDeskSoftwareGmbH.AnyDesk") }
+                    "7" { @("TeamViewer.TeamViewer") }
+                    "8" { @("Spotify.Spotify") }
+                    "9" { @("Adobe.Acrobat.Reader.64-bit") }
+                    "10" { @("Discord.Discord") }
+                    "11" { @("Valve.Steam") }
+                    "12" { @("Zoom.Zoom") }
+                    "99" { @("Google.Chrome", "RARLab.WinRAR", "VideoLAN.VLC", "Adobe.Acrobat.Reader.64-bit") }
+                    Default { $null }
+                }
+
+                if ($id) {
+                    foreach ($app in $id) {
+                        Write-Host "Instaliram: $app ..." -ForegroundColor Cyan
+                        winget install --id $app --silent --accept-package-agreements --accept-source-agreements
+                    }
+                    Write-Host "Instalacija završena!" -ForegroundColor Green; Pause
+                }
             } while ($true)
         }
 
+        "5" {
+            Show-Header
+            Write-Host "Provera licence..." -ForegroundColor Yellow
+            cscript //nologo $env:systemroot\system32\slmgr.vbs /xpr
+            Pause
+        }
+
         "6" {
+            Show-Header
+            Write-Host "1. Čišćenje Temp fajlova..." -ForegroundColor Yellow
+            Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue
+            Write-Host "2. Pražnjenje kante za smeće..." -ForegroundColor Yellow
+            Clear-RecycleBin -Force -ErrorAction SilentlyContinue
+            Write-Host "3. Pravljenje SERVIS foldera na Desktopu..." -ForegroundColor Cyan
+            $putanja = Join-Path ([Environment]::GetFolderPath("Desktop")) "SERVIS_OGNJEN"
+            if (-not (Test-Path $putanja)) { New-Item -ItemType Directory -Path $putanja -Force }
+            Write-Host "Sve je završeno uspešno!" -ForegroundColor Green
+            Pause
+        }
+
+        "7" {
             do {
                 Show-Header
-                Write-Host ">>> EXTRAS - OGNJENOV TOOLBOX" -ForegroundColor Magenta
-                Write-Host " 1) Napravi 'SERVIS' folder na Desktopu"
-                Write-Host " 2) Otvori moj GitHub (Baza znanja)"
+                Write-Host ">>> OGNJEN WEB PREČICE:" -ForegroundColor Magenta
+                Write-Host " 1) Otvori GitHub"
+                Write-Host " 2) Otvori Google"
+                Write-Host " 3) Otvori YouTube"
                 Write-Host " 0) NAZAD"
-                $ex = Read-Host "Izbor"
-                if ($ex -eq "0") { break }
-                if ($ex -eq "1") {
-                    New-Item -ItemType Directory -Path "$env:USERPROFILE\Desktop\SERVIS_OGNJEN" -Force
-                    Write-Host "Folder napravljen!" -ForegroundColor Green; Pause
-                }
-                if ($ex -eq "2") { Start-Process "https://github.com/"; Pause }
+                $web = Read-Host "Izbor"
+                if ($web -eq "0") { break }
+                if ($web -eq "1") { Start-Process "https://github.com" }
+                if ($web -eq "2") { Start-Process "https://google.com" }
+                if ($web -eq "3") { Start-Process "https://youtube.com" }
             } while ($true)
         }
 
