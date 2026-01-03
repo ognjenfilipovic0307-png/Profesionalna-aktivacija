@@ -5,19 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OGNJEN TECH | Admin Panel</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #0b0f19; color: #e2e8f0; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0b0f19; color: #e2e8f0; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
         #login-screen { text-align: center; background: #161b22; padding: 40px; border-radius: 15px; border: 1px solid #30363d; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        #main-content { display: none; width: 95%; max-width: 1000px; padding: 20px; }
+        #main-content { display: none; width: 100%; max-width: 1100px; }
         input[type="password"] { padding: 12px; border-radius: 5px; border: 1px solid #38bdf8; background: #0f172a; color: white; width: 200px; text-align: center; font-size: 1.1em; }
         button { padding: 12px 25px; border-radius: 5px; border: none; background: #38bdf8; color: #0f172a; font-weight: bold; cursor: pointer; margin-top: 10px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        .card { background: #161b22; padding: 20px; border-radius: 10px; border: 1px solid #30363d; margin-bottom: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 20px; }
+        .card { background: #161b22; padding: 20px; border-radius: 10px; border: 1px solid #30363d; height: fit-content; }
         h1, h2, h3 { color: #38bdf8; text-transform: uppercase; margin-top: 0; }
-        .btn-action { display: block; background: #238636; color: white; padding: 15px; text-decoration: none; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 10px; border: 1px solid #2ea043; }
-        .code-block { background: #010409; padding: 10px; border-radius: 5px; color: #7ee787; font-family: monospace; font-size: 0.85em; overflow-x: auto; border-left: 3px solid #38bdf8; margin: 10px 0; }
-        .tip { color: #facc15; font-weight: bold; font-size: 0.9em; }
-        hr { border: 0; border-top: 1px solid #30363d; margin: 20px 0; }
-        @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
+        .btn-action { display: block; background: #238636; color: white; padding: 15px; text-decoration: none; border-radius: 8px; font-weight: bold; text-align: center; margin-bottom: 20px; border: 1px solid #2ea043; }
+        .code-block { background: #010409; padding: 10px; border-radius: 5px; color: #7ee787; font-family: monospace; font-size: 0.85em; overflow-x: auto; border-left: 3px solid #38bdf8; margin: 10px 0; white-space: pre-wrap; word-break: break-all; }
+        .tip { color: #facc15; font-weight: bold; }
+        .important { color: #f87171; font-weight: bold; border-bottom: 1px solid #f87171; display: inline-block; margin-bottom: 10px; }
+        ul { padding-left: 20px; }
+        li { margin-bottom: 10px; }
     </style>
 </head>
 <body>
@@ -30,71 +31,73 @@
     </div>
 
     <div id="main-content">
-        <div style="text-align: center; margin-bottom: 30px;">
-            <h1>MAJSTOR OGNJEN - SERVISNI PANEL</h1>
-            <div class="grid">
-                <a href="https://raw.githubusercontent.com/ognjenfilipovic0307-png/Profesionalna-aktivacija/main/start.ps1" class="btn-action">📥 PREUZMI START.PS1</a>
-                <div class="card" style="margin:0; padding:10px;">
-                    <small>Direktna komanda za PowerShell:</small>
-                    <div class="code-block" style="font-size:0.7em;">irm https://raw.githubusercontent.com/ognjenfilipovic0307-png/Profesionalna-aktivacija/main/start.ps1 | iex</div>
-                </div>
-            </div>
-        </div>
+        <h1 style="text-align: center; color: #fff;">SERVISNI PANEL - MAJSTOR OGNJEN</h1>
+       
+        <a href="start.ps1" class="btn-action">📥 PREUZMI GLAVNU SKRIPTU (START.PS1)</a>
 
         <div class="grid">
+           
             <div class="card">
                 <h2>🔍 Provera Licence</h2>
-                <p>Status aktivacije (Trajno ili ne):</p>
-                <div class="code-block">slmgr.vbs /xpr</div>
-                <p>Tip licence (Retail/OEM/Volume):</p>
-                <div class="code-block">slmgr.vbs /dli</div>
-                <p>Fabrički ključ iz BIOS-a:</p>
-                <div class="code-block">(Get-WmiObject -query 'select * from SoftwareLicensingService').OA3xOriginalProductKey</div>
-                <p class="tip">MAJSTORSKI SAVET: Ako piše "Volume will expire", reci im da je piratska i da ti radiš bezbednu trajnu aktivaciju.</p>
+                <p class="important">Provera pre rada:</p>
+                <ul>
+                    <li><b>Trajno ili ističe:</b> <div class="code-block">slmgr.vbs /xpr</div></li>
+                    <li><b>Detalji (Retail/OEM/Volume):</b> <div class="code-block">slmgr.vbs /dli</div></li>
+                    <li><b>Fabrički ključ iz BIOS-a:</b> <div class="code-block">(Get-WmiObject -query 'select * from SoftwareLicensingService').OA3xOriginalProductKey</div></li>
+                </ul>
+                <p class="tip">Savet klijentu: "Windows vam je na privremenom bypass-u, ja ću vam uraditi trajnu digitalnu licencu."</p>
             </div>
 
             <div class="card">
-                <h2>🚀 Optimizacija Sistema</h2>
-                <p>Čišćenje Update keša (kad baguje):</p>
-                <div class="code-block">net stop wuauserv; net stop bits; Remove-Item -Path "C:\Windows\SoftwareDistribution\Download\*" -Recurse -Force; net start wuauserv</div>
-                <p>Čišćenje Windows.old:</p>
-                <div class="code-block">RD /S /Q "C:\Windows.old"</div>
-                <p>Optimizacija SSD/HDD:</p>
-                <div class="code-block">defrag C: /O</div>
-                <p>Čišćenje Temp fajlova:</p>
-                <div class="code-block">Remove-Item -Path "$env:LOCALAPPDATA\Temp\*" -Recurse -Force</div>
-            </div>
-
-            <div class="card">
-                <h2>⚙️ Hardver & Mreža</h2>
-                <p>Sve WiFi lozinke na kompu:</p>
+                <h2>🛠️ Hardver i Šifre</h2>
+                <p class="important">Fizički servis:</p>
+                <p>• <b>Pregrevanje:</b> Obavezno četkica i kompresovani vazduh. Laptopovi koče jer su "zapušeni".</p>
+                <p class="important">Mreža i WiFi:</p>
+                <p>• <b>Sve WiFi lozinke ikada:</b></p>
                 <div class="code-block">(netsh wlan show profiles) | Select-String "\:(.+)$" | %{$name=$_.Matches.Groups[1].Value.Trim(); $_} | %{(netsh wlan show profile name="$name" key=clear)} | Select-String "Key Content\W+\:(.+)$"</div>
-                <p>Zdravlje baterije (HTML izveštaj):</p>
-                <div class="code-block">powercfg /batteryreport</div>
-                <p>Ko je sve na mom WiFi-u:</p>
-                <div class="code-block">Get-NetNeighbor</div>
+                <p>• <b>Ko je na WiFi-u:</b> <div class="code-block">Get-NetNeighbor</div></p>
             </div>
 
             <div class="card">
-                <h2>📺 YouTube bez reklama</h2>
-                <p>1. <b>uBlock Origin</b> (Raymond Hill) - Najbolji blocker.</p>
-                <p>2. <b>SponsorBlock</b> - Preskače smaranje u videu.</p>
-                <p>3. <b>Brave Browser</b> - Ima sve ugrađeno.</p>
-                <p>4. <b>Revanced</b> - Rešenje za Android telefon.</p>
-                <p class="tip">Trik: Ako blokiraju uBlock -> Settings -> Filter lists -> Purge all caches -> Update now.</p>
+                <h2>📺 YouTube BEZ Reklama</h2>
+                <ul>
+                    <li><b>uBlock Origin:</b> Glavni alat. (Purge cache + Update ako baguje).</li>
+                    <li><b>SponsorBlock:</b> Preskače sponzore u videu.</li>
+                    <li><b>Brave:</b> Najbolji browser ako neće dodatke.</li>
+                    <li><b>Android:</b> Traži YouTube Revanced.</li>
+                </ul>
+                <p class="tip">Reci im: "Namestio sam vam da video odmah krene, bez reklama i smaranja."</p>
             </div>
-        </div>
 
-        <div class="card">
-            <h2>🛠️ Specijalni Majstorski Trikovi</h2>
-            <h3>🔑 Skidanje šifre / Instalacija</h3>
-            <p>• <b>Pregrevanje:</b> Četkica i vazduh obavezno. Laptopovi koče jer su zapušeni.</p>
-            <p>• <b>Popravka sistema:</b> <span class="code-block">sfc /scannow</span> pa onda <span class="code-block">DISM /Online /Cleanup-Image /RestoreHealth</span></p>
-            <p>• <b>Brzo ažuriranje svega:</b> <span class="code-block">winget upgrade --all</span></p>
-        </div>
+            <div class="card">
+                <h2>🚀 Optimizacija (Tabela)</h2>
+                <p>• <b>Čišćenje Update keša:</b></p>
+                <div class="code-block">net stop wuauserv; net stop bits; Remove-Item -Path "C:\Windows\SoftwareDistribution\Download\*" -Recurse -Force; net start wuauserv; net start bits</div>
+                <p>• <b>Popravka sistema:</b></p>
+                <div class="code-block">DISM /Online /Cleanup-Image /RestoreHealth</div>
+                <p>• <b>Čišćenje Windows.old:</b></p>
+                <div class="code-block">RD /S /Q "C:\Windows.old"</div>
+                <p>• <b>Compact OS:</b></p>
+                <div class="code-block">compact.exe /CompactOS:always</div>
+            </div>
 
-        <div style="text-align:center; padding: 20px; opacity: 0.5;">
-            <p>Tvoj sajt: https://ognjenfilipovic0307-png.github.io/Profesionalna-aktivacija/</p>
+            <div class="card">
+                <h2>💻 Hardver Info</h2>
+                <ul>
+                    <li><b>Zdravlje baterije:</b> <div class="code-block">powercfg /batteryreport</div></li>
+                    <li><b>Model matične:</b> <div class="code-block">Get-WmiObject win32_baseboard | Select-Object Manufacturer, Product</div></li>
+                    <li><b>GPU Info:</b> <div class="code-block">Get-WmiObject Win32_VideoController | Select-Object Name</div></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>🧹 Duboko Čišćenje</h2>
+                <p>• <b>Brisanje Temp fajlova:</b></p>
+                <div class="code-block">Remove-Item -Path "$env:LOCALAPPDATA\Temp\*" -Recurse -Force -ErrorAction SilentlyContinue</div>
+                <p>• <b>Čišćenje Delivery Optimization:</b></p>
+                <div class="code-block">net stop dosvc; Remove-Item -Path "C:\Windows\ServiceProfiles\NetworkService\AppData\Local\Microsoft\Windows\DeliveryOptimization\Cache\*" -Recurse -Force; net start dosvc</div>
+            </div>
+
         </div>
     </div>
 
