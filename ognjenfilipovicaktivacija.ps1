@@ -1,5 +1,5 @@
 # --- PROVERA ŠIFRE (Ognjen 0307 14) ---
-$mojaSifra = "0307 14"
+$mojaSifra = "030714"
 Clear-Host
 Write-Host "====================================================" -ForegroundColor Red
 Write-Host "          MAJSTOR TECH - ZAKLJUČAN SISTEM           " -ForegroundColor White -BackgroundColor Red
