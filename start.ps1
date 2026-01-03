@@ -5,8 +5,8 @@ if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdenti
     exit
 }
 
-# --- LOZINKA ZA PRISTUP ---
-$mojaSifra = "0307 14"
+# --- LOZINKA ZA PRISTUP (BEZ RAZMAKA) ---
+$mojaSifra = "030714"
 $pustajUnutra = $false
 
 while (-not $pustajUnutra) {
@@ -38,7 +38,7 @@ do {
     Write-Host " 1. WINDOWS AKTIVACIJA"
     Write-Host " 2. OFFICE AKTIVACIJA"
     Write-Host " 3. POPRAVKA SISTEMA (SFC & DISM)"
-    Write-Host " 4. INSTALACIJA PROGRAMA (Chrome, WinRAR...)"
+    Write-Host " 4. INSTALACIJA PROGRAMA (BIRAŠ ŠTA ŽELIŠ)"
     Write-Host " 5. PROVERI STATUS LICENCI"
     Write-Host " 6. ČIŠĆENJE SISTEMA (Temp & Kanta)"
     Write-Host " 7. MOJA BAZA ZNANJA (Sajt)"
@@ -53,31 +53,30 @@ do {
         "3" { Show-Header; Write-Host "Popravljam sistem..."; sfc /scannow; dism /online /cleanup-image /restorehealth; Pause }
         "4" {
             Show-Header
-            Write-Host "Instaliram osnovne programe..." -ForegroundColor Magenta
-            $apps = @("Google.Chrome", "RARLab.WinRAR", "VideoLAN.VLC", "AnyDeskSoftwareGmbH.AnyDesk")
-            foreach ($app in $apps) {
-                Write-Host "Instaliram: $app"
-                winget install --id $app --silent --accept-package-agreements --accept-source-agreements
+            Write-Host "--- IZBOR PROGRAMA (Y = DA / N = NE) ---" -ForegroundColor Magenta
+            $programi = @(
+                @{id="Google.Chrome"; ime="Google Chrome"},
+                @{id="RARLab.WinRAR"; ime="WinRAR"},
+                @{id="VideoLAN.VLC"; ime="VLC Player"},
+                @{id="AnyDeskSoftwareGmbH.AnyDesk"; ime="AnyDesk"}
+            )
+            foreach ($p in $programi) {
+                $odgovor = Read-Host "Instalirati $($p.ime)?"
+                if ($odgovor -eq "y" -or $odgovor -eq "Y") {
+                    Write-Host "Instaliram $($p.ime)..." -ForegroundColor Cyan
+                    winget install --id $($p.id) --silent --accept-package-agreements --accept-source-agreements
+                }
             }
             Pause
         }
         "5" { Show-Header; cscript //nologo $env:systemroot\system32\slmgr.vbs /xpr; Pause }
         "6" {
-            Show-Header
-            Write-Host "Čistim nepotrebne fajlove..." -ForegroundColor Yellow
+            Show-Header; Write-Host "Čistim sistem...";
             Remove-Item -Path $env:TEMP\* -Recurse -Force -ErrorAction SilentlyContinue
             Clear-RecycleBin -Force -ErrorAction SilentlyContinue
-            Write-Host "Sistem je očišćen!" -ForegroundColor Green
             Pause
         }
-        "7" {
-            Show-Header
-            Write-Host "Otvaram tvoj privatni sajt..." -ForegroundColor Cyan
-            Start-Process "https://ognjenfilipovic0307-png.github.io/Profesionalna-aktivacija/"
-            Pause
-        }
+        "7" { Start-Process "https://ognjenfilipovic0307-png.github.io/Profesionalna-aktivacija/"; Pause }
         "8" { exit }
     }
 } while ($true)
-
- 
